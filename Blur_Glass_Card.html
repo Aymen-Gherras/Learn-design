@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blur Glass Cards</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-image: url('/images/image_3.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-wrap: wrap;
+        }
+
+        .glass-card {
+            width: 300px;
+            height: 200px;
+            margin: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .glass-card:hover {
+            transform: scale(1.15);
+        }
+
+        .glass-card h2 {
+            margin: 0 0 10px 0;
+        }
+
+        .glass-card p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-card" id="card1">
+        <h2>Card 1</h2>
+        <p>This is a blur glass card with frosted effect.</p>
+    </div>
+    <div class="glass-card" id="card2">
+        <h2>Card 2</h2>
+        <p>Hover to see the scale animation.</p>
+    </div>
+    <div class="glass-card" id="card3">
+        <h2>Card 3</h2>
+        <p>Using Anime.js for advanced animations.</p>
+    </div>
+    <div class="glass-card" id="card4">
+        <h2>Card 4</h2>
+        <p>Click to see rotation and fade effect.</p>   
+    </div>
+    <div class="glass-card" id="card5">
+        <h2>Card 5</h2>
+        <p>Using Anime.js for advanced animations.</p>
+    </div>
+    <div class="glass-card" id="card6">
+        <h2>Card 6</h2>
+        <p>Click to see rotation and fade effect.</p>   
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script>
+    // Select all elements with the class 'glass-card'
+    document.querySelectorAll('.glass-card').forEach(card => {
+        // Add a click event listener to each card
+        card.addEventListener('click', () => {
+            // Use Anime.js to animate the clicked card
+            anime({
+                targets: card,          // The element to animate
+                rotate: '+=360',        // Rotate the card 360 degrees clockwise
+                opacity: 0.5,           // Fade the card to 50% opacity
+                duration: 1000,         // Animation duration is 1000 milliseconds (1 second)
+                easing: 'easeInOutQuad',// Easing function for smooth animation
+                complete: () => {       // After the first animation completes
+                    anime({
+                        targets: card,  // Animate the same card again
+                        opacity: 1,     // Fade the card back to full opacity
+                        duration: 500  // Duration of fade-in is 500 milliseconds
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
