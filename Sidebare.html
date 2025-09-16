@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retracting Sidebar Example</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef2ff;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 225px;
+      background: white;
+      border-right: 1px solid #d1d5db;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      transition: width 0.3s ease;
+      overflow: hidden;
+    }
+
+    .sidebar.collapsed {
+      width: 70px;
+    }
+
+    .title-section {
+      padding: 12px;
+      border-bottom: 1px solid #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .title-section:hover {
+      background: #f1f5f9;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      background: #4f46e5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .title-text {
+      margin-left: 8px;
+      font-size: 12px;
+      white-space: nowrap;
+      transition: opacity 0.3s;
+    }
+
+    .sidebar.collapsed .title-text {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Options */
+    .options {
+      padding: 8px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      border-radius: 6px;
+      color: #64748b;
+      text-decoration: none;
+      font-size: 13px;
+      position: relative;
+      transition: background 0.2s;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .option:hover {
+      background: #f1f5f9;
+    }
+
+    .option.active {
+      background: #e0e7ff;
+      color: #4338ca;
+    }
+
+    .option i {
+      width: 24px;
+      text-align: center;
+      font-size: 16px;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    .sidebar.collapsed .option span {
+      display: none;
+    }
+
+    .notif {
+      background: #4f46e5;
+      color: white;
+      font-size: 10px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: 8px;
+    }
+
+    .sidebar.collapsed .notif {
+      right: -5px;
+    }
+
+    /* Toggle */
+    .toggle {
+      border-top: 1px solid #d1d5db;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      color: #64748b;
+      font-size: 18px;
+    }
+
+    .toggle:hover {
+      background: #f1f5f9;
+    }
+
+    /* Content */
+    .content {
+      flex-grow: 1;
+      height: 100vh;
+      background: #eef2ff;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar" id="sidebar">
+    <div>
+      <div class="title-section">
+        <div style="display: flex; align-items: center;">
+          <div class="logo">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div class="title-text">
+            <span><strong>Aymene</strong></span>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+
+      <div class="options">
+        <div class="option active" data-content="<h1>Dashboard</h1><p>This is your dashboard overview.</p>"><i class="fa-solid fa-house"></i><span> Dashboard</span></div>
+        <div class="option" data-content="<h1>Sales</h1><p>Here you can see sales statistics.</p>"><i class="fa-solid fa-dollar-sign"></i><span> Sales</span></div>
+        <div class="option" data-content="<h1>View Site</h1><p>Preview your website here.</p>"><i class="fa-solid fa-desktop"></i><span> View Site</span></div>
+        <div class="option" data-content="<h1>Products</h1><p>Manage your products here.</p>"><i class="fa-solid fa-cart-shopping"></i><span> Products</span></div>
+        <div class="option" data-content="<h1>Tags</h1><p>Manage product tags here.</p>"><i class="fa-solid fa-tags"></i><span> Tags</span></div>
+        <div class="option" data-content="<h1>Analytics</h1><p>Track analytics and performance.</p>"><i class="fa-solid fa-chart-bar"></i><span> Analytics</span></div>
+        <div class="option" data-content="<h1>Members</h1><p>Manage your members here.</p>"><i class="fa-solid fa-users"></i><span> Members</span></div>
+      </div>
+    </div>
+
+    <div class="toggle" id="toggleBtn">
+      <i class="fa-solid fa-angles-left"></i>
+    </div>
+  </div>
+
+  <div class="content" id="content">
+    <h1>Dashboard</h1>
+    <p>This is your dashboard overview.</p>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const options = document.querySelectorAll('.option');
+    const content = document.getElementById('content');
+
+    // Toggle sidebar
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      const icon = toggleBtn.querySelector("i");
+
+      if (sidebar.classList.contains("collapsed")) {
+        icon.classList.replace("fa-angles-left", "fa-angles-right");
+      } else {
+        icon.classList.replace("fa-angles-right", "fa-angles-left");
+      }
+    });
+
+    // Change active menu and content
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        // Remove active from all
+        options.forEach(opt => opt.classList.remove('active'));
+        // Add active to clicked
+        option.classList.add('active');
+        // Change content
+        content.innerHTML = option.dataset.content;
+      });
+    });
+  </script>
+
+</body>
+</html>
