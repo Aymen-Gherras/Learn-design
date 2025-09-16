@@ -1,0 +1,4 @@
+- [ ] Install framer-motion and react-icons dependencies
+- [ ] Modify App.jsx to import and render Example from File_1.jsx
+- [ ] Run npm run dev to start the development server
+- [ ] Test File_1.jsx by opening the app in browser

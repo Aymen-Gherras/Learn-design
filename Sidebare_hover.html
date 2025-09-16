@@ -1,190 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hover Sidebar Example</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #eef2ff;
-      display: flex;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hover Sidebar Example</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg-light: #eef2ff;
+        --bg-dark: #222831;
+        --text-light: #000000;
+        --text-dark: #ffffff;
+        --sidebar-bg-light: white;
+        --sidebar-bg-dark: #333;
+        --sidebar-border-light: #d1d5db;
+        --sidebar-border-dark: #555;
+        --option-color-light: #64748b;
+        --option-color-dark: #ddd;
+        --option-active-bg-light: #e0e7ff;
+        --option-active-bg-dark: #5555aa;
+        --option-active-color-light: #4338ca;
+        --option-active-color-dark: #eee;
+        --option-hover-bg-light: #f1f5f9;
+        --option-hover-bg-dark: #444;
+      }
 
-    /* Sidebar */
-    .sidebar {
-      width: 70px; /* par défaut réduite */
-      background: white;
-      border-right: 1px solid #d1d5db;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      transition: width 0.3s ease;
-      overflow: hidden;
-    }
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: var(--bg-light);
+        color: var(--text-light);
+        display: flex;
+        transition: background 0.5s, color 0.5s;
+      }
 
-    /* Quand on hover, elle s'élargit */
-    .sidebar:hover {
-      width: 225px;
-    }
+      /* Sidebar */
+      .sidebar {
+        width: 70px; /* par défaut réduite */
+        background: var(--sidebar-bg-light);
+        border-right: 1px solid var(--sidebar-border-light);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        transition: width 0.3s ease, background 0.5s, border-color 0.5s;
+        overflow: hidden;
+        padding-left: 4px;
+      }
 
-    .title-section {
-      padding: 12px;
-      border-bottom: 1px solid #d1d5db;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+      /* Quand on hover, elle s'élargit */
+      .sidebar:hover {
+        width: 225px;
+      }
 
-    .title-section:hover {
-      background: #f1f5f9;
-    }
+      .title-section {
+        padding: 12px;
+        border-bottom: 1px solid var(--sidebar-border-light);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
 
-    .logo {
-      width: 40px;
-      height: 40px;
-      background: #4f46e5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      color: white;
-      flex-shrink: 0;
-    }
+      .title-section:hover {
+        background: var(--option-hover-bg-light);
+      }
 
-    .title-text {
-      margin-left: 8px;
-      font-size: 12px;
-      white-space: nowrap;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+      .logo {
+        width: 40px;
+        height: 40px;
+        background: #4f46e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        color: white;
+        flex-shrink: 0;
+      }
 
-    /* Affiche le texte uniquement quand sidebar élargie */
-    .sidebar:hover .title-text {
-      opacity: 1;
-    }
+      .title-text {
+        margin-left: 8px;
+        font-size: 12px;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
 
-    /* Options */
-    .options {
-      padding: 8px;
-    }
+      /* Affiche le texte uniquement quand sidebar élargie */
+      .sidebar:hover .title-text {
+        opacity: 1;
+      }
 
-    .option {
-      display: flex;
-      align-items: center;
-      padding: 8px;
-      border-radius: 6px;
-      color: #64748b;
-      text-decoration: none;
-      font-size: 13px;
-      position: relative;
-      transition: background 0.2s;
-      white-space: nowrap;
-      cursor: pointer;
-    }
+      /* Options */
+      .options {
+        padding: 8px;
+      }
 
-    .option:hover {
-      background: #f1f5f9;
-    }
+      .option {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        border-radius: 6px;
+        color: var(--option-color-light);
+        text-decoration: none;
+        font-size: 13px;
+        position: relative;
+        transition: background 0.2s, color 0.5s;
+        white-space: nowrap;
+        cursor: pointer;
+      }
 
-    .option.active {
-      background: #e0e7ff;
-      color: #4338ca;
-    }
+      .option:hover {
+        background: var(--option-hover-bg-light);
+      }
 
-    .option i {
-      width: 24px;
-      text-align: center;
-      font-size: 16px;
-      margin-right: 8px;
-      flex-shrink: 0;
-    }
+      .option.active {
+        background: var(--option-active-bg-light);
+        color: var(--option-active-color-light);
+      }
 
-    /* Cache le texte tant que sidebar réduite */
-    .sidebar .option span {
-      display: none;
-    }
+      .option i {
+        width: 24px;
+        text-align: center;
+        font-size: 16px;
+        margin-right: 8px;
+        flex-shrink: 0;
+      }
 
-    .sidebar:hover .option span {
-      display: inline;
-    }
+      /* Cache le texte tant que sidebar réduite */
+      .sidebar .option span {
+        display: none;
+      }
 
-    .notif {
-      background: #4f46e5;
-      color: white;
-      font-size: 10px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      right: 8px;
-    }
+      .sidebar:hover .option span {
+        display: inline;
+      }
 
-    /* Content */
-    .content {
-      flex-grow: 1;
-      height: 100vh;
-      background: #eef2ff;
-      padding: 20px;
-    }
-  </style>
-</head>
-<body>
+      .notif {
+        background: #4f46e5;
+        color: white;
+        font-size: 10px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: 8px;
+      }
 
-  <div class="sidebar" id="sidebar">
-    <div>
-      <div class="title-section">
-        <div style="display: flex; align-items: center;">
-          <div class="logo">
-            <i class="fa-solid fa-chart-line"></i>
+      /* Content */
+      .content {
+        flex-grow: 1;
+        height: 100vh;
+        background: var(--bg-light);
+        padding: 20px;
+        transition: background 0.5s, color 0.5s;
+        color: var(--text-light);
+      }
+
+      .toggle {
+        --size: 1.5rem;
+        appearance: none;
+        outline: none;
+        cursor: pointer;
+        width: var(--size);
+        height: var(--size);
+        box-shadow: inset calc(var(--size) * 0.33) calc(var(--size) * -0.25) 0;
+        border-radius: 999px;
+        color: hsl(240, 100%, 95%);
+        transition: all 500ms;
+        margin-right: 8px;
+        flex-shrink: 0;
+      }
+
+      .toggle:checked {
+        --ray-size: calc(var(--size) * -0.4);
+        --offset-orthogonal: calc(var(--size) * 0.65);
+        --offset-diagonal: calc(var(--size) * 0.45);
+        transform: scale(0.75);
+        color: #222831;
+        box-shadow: inset 0 0 0 var(--size),
+          calc(var(--offset-orthogonal) * -1) 0 0 var(--ray-size),
+          var(--offset-orthogonal) 0 0 var(--ray-size),
+          0 calc(var(--offset-orthogonal) * -1) 0 var(--ray-size),
+          0 var(--offset-orthogonal) 0 var(--ray-size),
+          calc(var(--offset-diagonal) * -1) calc(var(--offset-diagonal) * -1) 0
+            var(--ray-size),
+          var(--offset-diagonal) var(--offset-diagonal) 0 var(--ray-size),
+          calc(var(--offset-diagonal) * -1) var(--offset-diagonal) 0
+            var(--ray-size),
+          var(--offset-diagonal) calc(var(--offset-diagonal) * -1) 0
+            var(--ray-size);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar" id="sidebar">
+      <!-- Partie haute -->
+      <div>
+        <div class="title-section">
+          <div style="display: flex; align-items: center">
+            <div class="logo">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div class="title-text">
+              <span><strong>Aymene</strong></span>
+            </div>
           </div>
-          <div class="title-text">
-            <span><strong>Aymene</strong></span>
+        </div>
+
+        <div class="options">
+          <div
+            class="option active"
+            data-content="<h1>Dashboard</h1><p>This is your dashboard overview.</p>"
+          >
+            <i class="fa-solid fa-house"></i><span> Dashboard</span>
+          </div>
+          <div
+            class="option"
+            data-content="<h1>Sales</h1><p>Here you can see sales statistics.</p>"
+          >
+            <i class="fa-solid fa-dollar-sign"></i><span> Sales</span>
+          </div>
+          <div
+            class="option"
+            data-content="<h1>View Site</h1><p>Preview your website here.</p>"
+          >
+            <i class="fa-solid fa-desktop"></i><span> View Site</span>
+          </div>
+          <div
+            class="option"
+            data-content="<h1>Products</h1><p>Manage your products here.</p>"
+          >
+            <i class="fa-solid fa-cart-shopping"></i><span> Products</span>
+          </div>
+          <div
+            class="option"
+            data-content="<h1>Tags</h1><p>Manage product tags here.</p>"
+          >
+            <i class="fa-solid fa-tags"></i><span> Tags</span>
+          </div>
+          <div
+            class="option"
+            data-content="<h1>Analytics</h1><p>Track analytics and performance.</p>"
+          >
+            <i class="fa-solid fa-chart-bar"></i><span> Analytics</span>
+          </div>
+          <div
+            class="option"
+            data-content="<h1>Members</h1><p>Manage your members here.</p>"
+          >
+            <i class="fa-solid fa-users"></i><span> Members</span>
           </div>
         </div>
       </div>
 
-      <div class="options">
-        <div class="option active" data-content="<h1>Dashboard</h1><p>This is your dashboard overview.</p>"><i class="fa-solid fa-house"></i><span> Dashboard</span></div>
-        <div class="option" data-content="<h1>Sales</h1><p>Here you can see sales statistics.</p>"><i class="fa-solid fa-dollar-sign"></i><span> Sales</span></div>
-        <div class="option" data-content="<h1>View Site</h1><p>Preview your website here.</p>"><i class="fa-solid fa-desktop"></i><span> View Site</span></div>
-        <div class="option" data-content="<h1>Products</h1><p>Manage your products here.</p>"><i class="fa-solid fa-cart-shopping"></i><span> Products</span></div>
-        <div class="option" data-content="<h1>Tags</h1><p>Manage product tags here.</p>"><i class="fa-solid fa-tags"></i><span> Tags</span></div>
-        <div class="option" data-content="<h1>Analytics</h1><p>Track analytics and performance.</p>"><i class="fa-solid fa-chart-bar"></i><span> Analytics</span></div>
-        <div class="option" data-content="<h1>Members</h1><p>Manage your members here.</p>"><i class="fa-solid fa-users"></i><span> Members</span></div>
+      <!-- Partie basse : toggle collé en bas -->
+      <div
+        class="toggle-container"
+        style="
+          padding: 12px 15px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 8px;
+        "
+      >
+        <input type="checkbox" id="mode-toggle" class="toggle" />
+        <label
+          for="mode-toggle"
+          id="mode-label"
+          style="
+            color: var(--option-color-light);
+            cursor: pointer;
+            user-select: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+          "
+          >Dark Mode</label
+        >
       </div>
     </div>
-  </div>
 
-  <div class="content" id="content">
-    <h1>Dashboard</h1>
-    <p>This is your dashboard overview.</p>
-  </div>
+    <div class="content" id="content">
+      <h1>Dashboard</h1>
+      <p>This is your dashboard overview.</p>
+    </div>
 
-  <script>
-    const options = document.querySelectorAll('.option');
-    const content = document.getElementById('content');
+    <script>
+      const options = document.querySelectorAll(".option");
+      const content = document.getElementById("content");
 
-    // Changer l’onglet actif et le contenu
-    options.forEach(option => {
-      option.addEventListener('click', () => {
-        options.forEach(opt => opt.classList.remove('active'));
-        option.classList.add('active');
-        content.innerHTML = option.dataset.content;
+      // Changer l’onglet actif et le contenu
+      options.forEach((option) => {
+        option.addEventListener("click", () => {
+          options.forEach((opt) => opt.classList.remove("active"));
+          option.classList.add("active");
+          content.innerHTML = option.dataset.content;
+        });
       });
-    });
-  </script>
 
-</body>
+      // Sidebar hover effect to show/hide toggle label
+      const sidebar = document.getElementById("sidebar");
+      const modeLabel = document.getElementById("mode-label");
+
+      sidebar.addEventListener("mouseenter", () => {
+        modeLabel.style.opacity = "1";
+      });
+
+      sidebar.addEventListener("mouseleave", () => {
+        modeLabel.style.opacity = "0";
+      });
+
+      // Dark/Light mode toggle logic
+      const toggle = document.getElementById("mode-toggle");
+      const root = document.documentElement;
+
+      function setDarkMode(isDark) {
+        if (isDark) {
+          root.style.setProperty("--bg-light", "#222831");
+          root.style.setProperty("--text-light", "#ffffff");
+          root.style.setProperty("--sidebar-bg-light", "#333");
+          root.style.setProperty("--sidebar-border-light", "#555");
+          root.style.setProperty("--option-color-light", "#ddd");
+          root.style.setProperty("--option-active-bg-light", "#5555aa");
+          root.style.setProperty("--option-active-color-light", "#eee");
+          root.style.setProperty("--option-hover-bg-light", "#444");
+        } else {
+          root.style.setProperty("--bg-light", "#eef2ff");
+          root.style.setProperty("--text-light", "#000000");
+          root.style.setProperty("--sidebar-bg-light", "white");
+          root.style.setProperty("--sidebar-border-light", "#d1d5db");
+          root.style.setProperty("--option-color-light", "#64748b");
+          root.style.setProperty("--option-active-bg-light", "#e0e7ff");
+          root.style.setProperty("--option-active-color-light", "#4338ca");
+          root.style.setProperty("--option-hover-bg-light", "#f1f5f9");
+        }
+      }
+
+      toggle.addEventListener("change", () => {
+        setDarkMode(toggle.checked);
+        modeLabel.textContent = toggle.checked ? "Light Mode" : "Dark Mode";
+      });
+
+      // Initialize to light mode by default
+      toggle.checked = false;
+      setDarkMode(false);
+    </script>
+  </body>
 </html>
